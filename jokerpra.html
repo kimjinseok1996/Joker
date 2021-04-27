@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/9448297042.js" crossorigin="anonymous"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            overflow-x: hidden;
+            overflow-y: hidden;
+            font-family: 'Anton', sans-serif;
+            background: black;
+            font-family: "Adobe 고딕 Std";
+            font-family: 'Dancing Script', cursive;
+        }
+        section{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -9999;
+/*
+            opacity: 0;
+            transition: 1.5s;
+            background: black;
+*/
+            color: white;
+        }
+/*
+        .btn{
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            color: white;
+            top:50%;
+            z-index: 9999;
+            border-radius: 50%;
+            border: 5px solid white;
+            font-size: 25px;
+            text-align: center;
+            line-height: 50px;
+            opacity: 0.5;
+            display: none;
+            transition: 0.7s;
+        }
+        .btn:hover{
+            cursor: pointer;
+            opacity: 0.2;
+        }
+        #prevbtn{
+            left: 20px;
+            transform: translate(0px, -25px);
+        }
+        #nextbtn{
+            right: 20px;
+            transform: translate(0px, -25px);
+        }
+*/
+        .border{
+            position: absolute;
+        }
+        .bordertop{
+            top: -3px;
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(black, transparent);
+        }
+        .borderleft{
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 100%;
+            background: linear-gradient(to right, black, transparent);
+        }
+        .borderright{
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 100%;
+            background: linear-gradient(to left, black, transparent);
+        }
+        .borderbottom{
+            bottom: 0;
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(transparent, black);
+        }
+        img{
+            width: 100%;
+            height: 100%;
+        }
+        #tenpage video{
+            width: 100%;
+            height: 100%;
+        }
+        #videowrap{
+            position: relative;
+            width: 60%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #shotbtn{
+            position: absolute;
+            right: 15%;
+            top: 15%;
+            font-size: 15px;
+            background: black;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 70px;
+            opacity: 0.8;
+            display: none;
+            z-index: 9999;
+        }
+        #shotbtn:hover{
+            cursor: pointer;
+            opacity: 1;
+        }
+        #shotbtngage{
+            position: absolute;
+            top: 0;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            border: 5px solid transparent;
+            border-top: 5px solid #a10000;
+            box-sizing: border-box;
+            animation: shotgage infinite linear 0.8s;
+        }
+        @keyframes shotgage{
+            0%{
+                transform: rotate(0deg);
+            }
+            100%{
+                transform: rotate(360deg);
+            }
+        }
+        /*------------------------------tenwonpage-------------------------------------------*/
+        #tenwonpage{
+            display: none;
+        }
+        #tenwonpage_img{
+            position: absolute;
+            width: 50%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            opacity: 0;
+            transition: 2s;
+        }
+        #tenwonpage_textwrap{
+            position: relative;
+            width: 90%;
+            left: 50%;
+            top: 85%;
+            transform: translate(-50%,-85%);
+        }
+        #tenwonpage_textcover{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            transition: 2.5s;
+        }
+        /*------------------------------tentwopage-------------------------------------------*/
+        #tentwopage{
+            display: none;
+        }
+        .tentwo_img{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            opacity: 0;
+        }
+        .tentwo_img.tentwo_on{
+            opacity: 1;
+        }
+        #tentwo_bgimg{
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: url(jokerlastimg.jpg) no-repeat center;
+            background-size: cover;
+            display: none;
+            opacity: 0;
+            transition: 2.5s;
+        }
+        #tentwo_text{
+            font-family: 'Dancing Script', cursive;
+            position: absolute;
+            width: 550px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 170px;
+            color: #db7dbc;
+            opacity: 0;
+            transition: 2.5s;
+        }
+    </style>
+    <script>
+        $(function(){
+            var video = document.getElementById("murraykill");
+            $(".btn").css({"display":"none"}); //none
+                    video.play();
+                    $("#shotbtn").hover(function(){
+                        $("#shotbtngage").css({"animation-play-state":"paused"});
+                    },function(){
+                        $("#shotbtngage").css({"animation-play-state":"running"});
+                    });
+
+                    setTimeout(function(){
+                        video.pause();
+                        $("#shotbtn").css({"display":"block"});
+
+                        $("#shotbtn").on("click",function(){
+                            video.play();
+                            $("#shotbtn").css({"display":"none"});
+
+                            setTimeout(function(){
+                                $("#videowrap").css({"opacity":"0", "transition":"2.5s"});
+                                $(".btn").css({"display":"block"});
+                            },300);
+                        });
+
+                    },1700);
+        });
+    </script>
+</head>
+<body>
+<!--
+   <div id="nextbtn" class="btn"><i class="fas fa-chevron-right"></i></div>
+   <div id="prevbtn" class="btn"><i class="fas fa-chevron-left"></i></div>
+-->
+   
+    <section id="tenpage">
+       <div id="videowrap">
+           <div class="border bordertop"></div>
+            <div class="border borderleft"></div>
+            <div class="border borderright"></div>
+            <div class="border borderbottom"></div>
+            <video id="murraykill" src="murraykill.mp4" autoplay muted></video>
+            <div id="shotbtn">SHOT <div id="shotbtngage"></div> </div>
+       </div>
+    </section>
+    <section id="tenwonpage">
+        <div id="tenwonpage_img">
+           <div class="border bordertop"></div>
+            <div class="border borderleft"></div>
+            <div class="border borderright"></div>
+            <div class="border borderbottom"></div>
+            <img src="jokerarrest.gif" alt="joker">
+       </div>
+       <div id="tenwonpage_textwrap">
+               <div id="tenwonpage_textcover"></div>
+                <p>이렇게 체포된 아서는 경찰차를 타고 이송되지만, 창 너머로 자신의 혼란스럽게 불타오르는 고담을 지켜보며 웃음짓는다.</p>
+            </div>
+    </section>
+    
+    <section id="tentwopage">
+        <div id="tentwo_img1" class="tentwo_img">
+           <div class="border bordertop"></div>
+            <div class="border borderleft"></div>
+            <div class="border borderright"></div>
+            <div class="border borderbottom"></div>
+            <img src="ambul.jpg" alt="joker">
+        </div>
+        <div id="tentwo_img2" class="tentwo_img">
+           <div class="border bordertop"></div>
+            <div class="border borderleft"></div>
+            <div class="border borderright"></div>
+            <div class="border borderbottom"></div>
+            <img src="jokerlast1.gif" alt="joker">
+        </div>
+        <div id="tentwo_img3" class="tentwo_img">
+           <div class="border bordertop"></div>
+            <div class="border borderleft"></div>
+            <div class="border borderright"></div>
+            <div class="border borderbottom"></div>
+            <img src="jokerlast2.gif" alt="joker">
+        </div>
+        <div id="tentwo_img4" class="tentwo_img">
+           <div class="border bordertop"></div>
+            <div class="border borderleft"></div>
+            <div class="border borderright"></div>
+            <div class="border borderbottom"></div>
+            <img src="jokerlast3.gif" alt="joker">
+        </div>
+        <div id="tentwo_img5" class="tentwo_img">
+           <div class="border bordertop"></div>
+            <div class="border borderleft"></div>
+            <div class="border borderright"></div>
+            <div class="border borderbottom"></div>
+            <img src="jokerlast4.gif" alt="joker">
+        </div>
+        <div id="tentwo_img6" class="tentwo_img">
+           <div class="border bordertop"></div>
+            <div class="border borderleft"></div>
+            <div class="border borderright"></div>
+            <div class="border borderbottom"></div>
+            <img src="jokerlast5.gif" alt="joker">
+        </div>
+        <div id="tentwo_bgimg">
+            <img src="jokerlastimg.jpg" alt="joker">
+        </div>
+        <div id="tentwo_text">
+            <p>The End</p>
+        </div>
+    </section>
+</body>
+</html>
